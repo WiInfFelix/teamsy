@@ -1,0 +1,92 @@
+scalar Date
+scalar Time
+
+type Organisation {
+  id: ID!
+  organisation_name: String!
+  email: String!
+  adminMembers: [User]
+}
+
+type Division {
+  id: ID!
+  division_name: String!
+  email: String!
+  organisation_id: Int!
+  adminMembers: [User]
+}
+
+type Team {
+  id: ID!
+  teamName: String!
+  email: String!
+  members: [User!]!
+  adminMembers: [User]
+  events: [Event]
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  password: String!
+  birthday: Date!
+}
+
+type Event {
+  id: ID!
+  type: EventType!
+  eventDate: Time!
+  location: String!
+}
+
+enum EventType {
+  TRAINING
+  GAME
+  EVENT
+}
+
+type Query {
+  getOrganisations: [Organisation!]!
+  getOrganisationDivisions: [Division!]!
+  getDivisionTeams: [Team!]!
+  getTeamMembers: [User!]!
+}
+
+input NewUser {
+  username: String!
+  email: String!
+  password: String!
+  birthday: Date!
+}
+
+input NewOrganisation {
+  name: String!
+  email: String!
+}
+
+input NewDivision {
+  id: ID!
+}
+
+input NewTeam {
+  id: ID!
+}
+
+input NewEvent {
+  id: ID!
+}
+
+input NewJoinRequest {
+  id: ID!
+  userId: Int!
+  teamId: Int!
+}
+
+type Mutation {
+  createUser(input: NewUser!): String!
+  createOrganisation(input: NewOrganisation!): String!
+  createDivision(input: NewDivision!): String!
+  createTeam(input: NewTeam!): String!
+  createJoinRequest(input: NewJoinRequest!): String!
+}

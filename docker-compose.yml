@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - teamsy_network
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+    networks:
+      - teamsy_network
+    volumes:
+      - database:/var/lib/postgres/data
+
+networks:
+  teamsy_network:
+
+volumes:
+  database:
+    driver: local
